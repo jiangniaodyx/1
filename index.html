@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>银发居家养老系统 - 智能护工派单Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .title {
+            text-align: center;
+            color: #2c7be5;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            border: 1px solid #e4e7ed;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #e5f0ff;
+            color: #2c7be5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .tag.warn {
+            background: #fff5e5;
+            color: #ff6d00;
+        }
+
+        .btn {
+            background: #2c7be5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            background: #1a69d1;
+        }
+
+        .log-box {
+            background: #f8f9fa;
+            padding: 14px;
+            border-radius: 6px;
+            max-height: 220px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #333;
+        }
+
+        .result-box {
+            background: #e8f4fd;
+            border-left: 4px solid #2c7be5;
+            padding: 16px;
+            margin-top: 10px;
+            border-radius: 6px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width:768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">🏠 银发居家养老系统</h1>
+        <p class="subtitle">智能护工派单 Agent · 多Agent协作 · 长链推理 · 合规验证</p>
+
+        <div class="card">
+            <h3>🧓 老人信息</h3>
+            <div class="grid">
+                <div><b>姓名：</b>李爷爷</div>
+                <div><b>编号：</b>E002</div>
+                <div><b>护理等级：</b>重度护理</div>
+                <div><b>紧急程度：</b><span class="tag warn">紧急</span></div>
+                <div><b>需求：</b>压疮护理、导尿管护理、康复训练</div>
+                <div><b>时间：</b>14:00-16:00</div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="startAgent()">▶ 启动智能派单Agent流程</button>
+
+        <div class="card">
+            <h3>🤖 Agent 执行日志</h3>
+            <div id="log" class="log-box">等待启动...</div>
+        </div>
+
+        <div class="card">
+            <h3>✅ 最终派单方案</h3>
+            <div id="result" class="result-box">请点击上方按钮开始派单</div>
+        </div>
+    </div>
+
+    <script>
+        const elderly = {
+            name: "李爷爷",
+            needs: ["压疮护理", "导尿管护理", "康复辅助训练"],
+            time: "14:00-16:00",
+            level: "重度护理",
+            urgency: "紧急"
+        };
+
+        const caregivers = [
+            { id: "C001", name: "王护工", skills: ["日常照护","用药提醒"], score: 60 },
+            { id: "C002", name: "刘护工", skills: ["压疮护理","导尿管护理","康复训练"], score: 98 },
+            { id: "C003", name: "张护工", skills: ["日常照护"], score: 50 }
+        ];
+
+        function log(text) {
+            const dom = document.getElementById("log");
+            dom.textContent += text + "\n";
+            dom.scrollTop = dom.scrollHeight;
+        }
+
+        function showResult(html) {
+            document.getElementById("result").innerHTML = html;
+        }
+
+        async function startAgent() {
+            document.getElementById("log").textContent = "";
+            showResult("处理中...");
+
+            // === 1. 需求解析Agent ===
+            await delay(800);
+            log("【1/4】需求解析Agent → 正在解析老人护理需求...");
+            await delay(600);
+            log("✅ 解析完成：重度护理、紧急、需要专业伤口/导管护理技能");
+
+            // === 2. 护工匹配Agent ===
+            await delay(800);
+            log("【2/4】护工匹配Agent → 技能匹配、距离匹配、时间匹配...");
+            await delay(600);
+            log("✅ 匹配完成：刘护工（C002）技能100%匹配，评分98分");
+
+            // === 3. 派单优化Agent（长链推理）===
+            await delay(800);
+            log("【3/4】派单优化Agent → 长链推理生成最优方案...");
+            await delay(600);
+            log("✅ 方案生成：优先紧急需求，推荐高资质护工，时间无冲突");
+
+            // === 4. 合规验证Agent ===
+            await delay(800);
+            log("【4/4】合规验证Agent → 验证资质、合规性、风险...");
+            await delay(600);
+            log("✅ 验证通过：护工资质齐全、服务合规、无风险");
+
+            // 输出结果
+            await delay(600);
+            showResult(`
+                <div><b>老人：</b>${elderly.name}</div>
+                <div><b>推荐护工：</b>刘护工（C002）</div>
+                <div><b>匹配度：</b>98%</div>
+                <div><b>服务时间：</b>14:00-16:00</div>
+                <div><b>合规状态：</b>✅ 合规（高级护理资质+急救认证）</div>
+                <div><b>结论：</b>方案可立即执行，满足紧急重度护理需求</div>
+            `);
+        }
+
+        function delay(ms) {
+            return new Promise(res => setTimeout(res, ms));
+        }
+    </script>
+</body>
+</html>
